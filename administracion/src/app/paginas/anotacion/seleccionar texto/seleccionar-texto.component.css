@@ -1,0 +1,62 @@
+.button{
+    color: "#106CC8" !important;
+    font-weight: 'bold';
+    font-size: 45px;
+}
+
+.example-full-width {
+    width: 100%;
+}
+
+.titulo{
+    font-size: 18px; 
+    font-weight: 500; 
+    padding-top: 10px;
+    padding-left: 15px; 
+    height: 60px; 
+    overflow-y: auto; 
+    width: 650px;
+}
+
+.textoSelector{
+    height: 45vh;
+    overflow: auto; 
+    border-radius: 5px;
+    text-align: justify;
+    border-top: solid 1px black;
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+}
+
+.div{
+    padding-top: 5px;
+    background-color: white; 
+    border-radius: 10px; 
+    border-color: whitesmoke !important; 
+    border: solid;
+}
+
+.div2 {
+    padding-top: 15px;
+    background-color: white; 
+    border-radius: 10px; 
+    border-color: whitesmoke !important; 
+    border: solid;
+    padding-left: 20px;
+
+}
+
+.divNoPadding {
+    background-color: white; 
+    border-radius: 10px; 
+    border-color: whitesmoke !important; 
+    border: solid;
+}
+
+.icon{
+    font-size: 45px;
+}
+
+::ng-deep.mat-dialog-container {
+    height: unset !important;
+}

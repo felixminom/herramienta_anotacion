@@ -1,0 +1,54 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.card{
+    margin: 15px;
+    border-radius: 5px;
+    
+}
+td,th{
+    text-align: center !important;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 80%;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #90C0F1; 
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #106CC8; 
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #0E3C6B; 
+  }
+
+
+  /*Notificaciones*/
+  .exito-snackbar {
+    width: 500px;
+    background: #28a745;
+    color: white;
+  }
+
+  .fracaso-snackbar {
+    background: #F44336;
+    color: white;
+  }
+
+  .advertencia-snackbar {
+    background: #FFC107;
+    color: black;
+  }

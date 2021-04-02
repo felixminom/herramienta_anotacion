@@ -1,0 +1,57 @@
+<mat-card class="standar">
+    <mat-grid-list cols="10" rowHeight="30px" style="width: 100%;">
+        <mat-grid-tile [colspan]="10" [rowspan]="1">
+            <span style="font-weight: 500; color: white; font-size: 20px;">
+                Editar anotacion
+            </span>
+        </mat-grid-tile>
+    </mat-grid-list>
+</mat-card>
+
+
+<mat-card class="mat-elevation-z8 card" style="background-color: #fafafa; text-align: justify;">
+
+    <div *ngFor="let valor of anotacion.valores">
+        <span style="font-weight: 500; font-size: 16px;" [ngStyle]="{'color': valor.color_primario}">
+            {{valor.tratamiento_descripcion}} |
+            {{valor.atributo_descripcion}} |
+            {{valor.valor_descripcion}}
+           
+        </span>
+    </div>
+    <hr>
+
+
+    <section class="example-section">
+        <span style="color: forestgreen;">Ejecuta </span>
+        <mat-slide-toggle class="example-margin" (change)="cambiarEjecuta()" [checked]="!anotacion.ejecuta">
+            <span style="color: tomato;"> No ejecuta </span>
+        </mat-slide-toggle>
+    </section>
+
+    <textarea style="height: 125px;" matInput [(ngModel)]="anotacion.texto">
+    </textarea>
+</mat-card>
+
+
+
+<mat-form-field appearance="outline" class="example-full-width">
+    <mat-label>Deja un comentario</mat-label>
+    <textarea matInput [(ngModel)]="anotacion.comentario" placeholder="Ej. Explica la manera en que se toman los datos">
+    </textarea>
+</mat-form-field>
+
+<div class="divNoPadding">
+    <mat-grid-list cols="4" rowHeight="40px" style="width: 100%;">
+
+        <mat-grid-tile [colspan]="3" [rowspan]="1" style="width: 100%; ">
+        </mat-grid-tile>
+
+        <mat-grid-tile [colspan]="1" [rowspan]="1" style="width: 100%; ">
+            <button mat-raised-button class="standar" (click)="editarAnotacion()">
+                Guardar
+            </button>
+        </mat-grid-tile>
+
+    </mat-grid-list>
+</div>

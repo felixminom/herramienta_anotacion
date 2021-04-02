@@ -1,0 +1,31 @@
+.sidenav-container {
+  height: 100%;
+}
+
+.sidenav  {
+  width: 200px; 
+  background: white;
+  color: white
+}
+
+.sidenav .mat-toolbar {
+  background: inherit;
+}
+
+.fondo{ 
+  background: #106CC8 !important;
+  color: white !important;
+} 
+
+.usuario{
+  font-size: 15px;
+  padding-right: 10px;
+}
+
+.icono {
+  size: 30px;
+}
+
+.icono:hover {
+  color: red
+}

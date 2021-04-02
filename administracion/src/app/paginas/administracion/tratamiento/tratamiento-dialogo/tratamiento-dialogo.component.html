@@ -1,0 +1,44 @@
+<div style="height: 100%;">
+    <mat-toolbar class="standar">
+        <span style="width: 100%;text-align: center">{{titulo}}</span>
+    </mat-toolbar>
+
+    <mat-card>
+        <mat-card-content>
+            <mat-dialog-content [formGroup]="formulario">
+                <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Nombre Tratamiento</mat-label>
+                    <input type="text" matInput placeholder="Nombre de tratamiento" formControlName="descripcion" required>
+
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width" appearance="outline" style="padding-bottom: -1.34375em;">
+                    <mat-label>Color del tratamiento</mat-label>
+
+                    <input matInput placeholder="Color Primario" formControlName="color_primario_string"
+                        [ngStyle]="estiloAnotacion(formulario.value.color_primario_string)">
+
+                    <mat-icon title='Editar color' matSuffix (click)="colorPicker(tratamientoAux.color_primario_codigo)"
+                        [ngStyle]="estiloAnotacion(formulario.value.color_primario_string)">color_lens
+                    </mat-icon>
+                </mat-form-field>
+            </mat-dialog-content>
+        </mat-card-content>
+
+        <mat-card-actions style="padding-top: 0px;">
+            <mat-grid-list cols="4" rowHeight="4:1">
+                <mat-grid-tile [colspan]="3" [rowspan]="1">
+                
+                </mat-grid-tile>
+                <mat-grid-tile [colspan]="1" [rowspan]="2">
+                    <button (click)="guardar()" class="standar" mat-button>
+                        Guardar
+                        <mat-icon>save</mat-icon>
+                    </button>
+                </mat-grid-tile>
+            </mat-grid-list>
+
+        </mat-card-actions>
+    </mat-card>
+
+</div>
