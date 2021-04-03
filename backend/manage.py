@@ -26,7 +26,7 @@ CORS(app, resources='/*')
 #python manage.py run
 @manager.command
 def run():
-    app.run()
+    app.run(port=5000,host='0.0.0.0')
 
 
 if __name__ == '__main__':

@@ -1,8 +1,8 @@
-"""anotacion multiple valor
+"""empty message
 
-Revision ID: 5ecc97a84fcd
+Revision ID: d988fb323148
 Revises: 
-Create Date: 2020-03-21 12:15:08.754888
+Create Date: 2021-04-02 13:14:06.231234
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '5ecc97a84fcd'
+revision = 'd988fb323148'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -40,6 +40,7 @@ def upgrade():
     sa.Column('url', sa.String(length=128), nullable=False),
     sa.Column('fecha', sa.Date(), nullable=False),
     sa.Column('asignada', sa.Boolean(), nullable=False),
+    sa.Column('coeficiente', sa.Float(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('nombre')
     )
@@ -95,7 +96,7 @@ def upgrade():
     sa.Column('parrafo_id', sa.Integer(), nullable=True),
     sa.Column('usuario_id', sa.Integer(), nullable=True),
     sa.Column('consolidar', sa.Boolean(), nullable=False),
-    sa.Column('permite', sa.Boolean(), nullable=False),
+    sa.Column('ejecuta', sa.Boolean(), nullable=False),
     sa.ForeignKeyConstraint(['parrafo_id'], ['parrafo.id'], ),
     sa.ForeignKeyConstraint(['usuario_id'], ['usuario.id'], ),
     sa.PrimaryKeyConstraint('id')
