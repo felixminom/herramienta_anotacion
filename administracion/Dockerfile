@@ -12,6 +12,5 @@ RUN npm run build --prod
 
 FROM nginx:1.15.8-alpine
 
-#COPY ./nginx.conf /etc/nginx/nginx.conf
 RUN rm -rf /usr/share/nginx/html/*
 COPY --from=builder /usr/src/app/dist/HerramientaAnotacionVista/ /usr/share/nginx/html
