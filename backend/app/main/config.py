@@ -1,7 +1,8 @@
 import os
 
-#mysql_local_base = 'mysql+pymysql://root:Benalcazar_11@127.0.0.1:3306/herramienta_anotacion?charset=utf8mb4'
-mysql_local_base = 'mysql+pymysql://herramienta:master_20@db/herramienta_anotacion?charset=utf8mb4'
+mysql_local_base = 'mysql+pymysql://root:Benalcazar_11@127.0.0.1:3306/herramienta_anotacion?charset=utf8mb4'
+
+mysql_docker = 'mysql+pymysql://herramienta:master_20@db/herramienta_anotacion?charset=utf8mb4'
 
 mysql_aws = 'mysql+pymysql://admin:Herramienta_2020@' \
             'herramienta-anotacion.cicb7kkmbijy.us-west-2.rds.amazonaws.com:3306/herramienta_anotacion_epn?charset=utf8mb4'
@@ -19,7 +20,13 @@ class DevelopmentConfig(Config):
     DEBUG = True
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-#Se podría incrementar un tercer ambiente de pruebas en un futuro
+class DockerConfig(Config):
+    """Configuracion para el ambiente dockerizado"""
+    SQLALCHEMY_DATABASE_URI = mysql_docker
+    DEBUG = True
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+#Se podría incrementar un cuarto ambiente de pruebas en un futuro
 
 class ProductionConfig(Config):
     """Configuracion para el ambiente de produccion"""
@@ -30,7 +37,8 @@ class ProductionConfig(Config):
 
 config_by_name = dict(
     dev=DevelopmentConfig,
-    prod=ProductionConfig
+    prod=ProductionConfig,
+    docker=DockerConfig
 )
 
 key = Config.SECRET_KEY

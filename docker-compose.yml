@@ -17,3 +17,17 @@ services:
       MYSQL_USER: herramienta
       MYSQL_PASSWORD: master_20
       MYSQL_DATABASE: herramienta_anotacion
+    volumes:
+      - mysql_db:/var/lib/mysql
+  administracion:
+    build: ./administracion
+    ports:
+      - '4200:80'
+
+  visualizacion:
+    build: ./visualizacion
+    ports:
+      - '4201:80'
+
+volumes:
+  mysql_db:
