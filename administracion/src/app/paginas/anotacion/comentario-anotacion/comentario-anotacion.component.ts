@@ -43,7 +43,7 @@ export class ComentarioAnotacionComponent {
     )
   }
 
-  cambiarejecuta() {
+  cambiarEjecuta() {
     this.anotacion.ejecuta = !this.anotacion.ejecuta
   }
 

@@ -4,8 +4,7 @@ from app.main import crear_aplicacion, db
 from app import blueprint
 from flask_cors import CORS
 
-#Aquí se define el ambiente en el que se ejecuta la aplicación
-ENTORNO = 'dev'
+ENTORNO = 'docker'
 
 app = crear_aplicacion(ENTORNO)
 
@@ -26,7 +25,7 @@ CORS(app, resources='/*')
 #python manage.py run
 @manager.command
 def run():
-    app.run()
+    app.run(port=5000,host='0.0.0.0')
 
 
 if __name__ == '__main__':

@@ -13,6 +13,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { NotificacionComponent } from './notificacion/notificacion.component';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 @NgModule({
 
@@ -37,7 +38,7 @@ import { NotificacionComponent } from './notificacion/notificacion.component';
     MainNavModule,
     HttpClientModule,
   ],
-  providers: [],
+  providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
