@@ -1,7 +1,7 @@
 """empty message
 
 Revision ID: d988fb323148
-Revises: 
+Revises:
 Create Date: 2021-04-02 13:14:06.231234
 
 """
@@ -141,6 +141,70 @@ def upgrade():
     sa.ForeignKeyConstraint(['valor_id'], ['valor.id'], ),
     sa.PrimaryKeyConstraint('anotacion_id', 'valor_id')
     )
+
+    color_table = sa.table('color',
+    sa.column('id', sa.Integer),
+    sa.column('codigo', sa.String),
+    sa.column('disponible', sa.Boolean)
+    )
+
+    modulo_table = sa.table('modulo',
+    sa.Column('id', sa.Integer),
+    sa.Column('nombre', sa.String),
+    sa.Column('icono', sa.String),
+    sa.Column('path', sa.String),
+    sa.Column('padre_id', sa.Integer),
+    )
+
+    rol_usuario_table = sa.table('rol_usuario',
+    sa.Column('id', sa.Integer),
+    sa.Column('nombre', sa.String),
+    sa.Column('descripcion', sa.String),
+    )
+
+    rol_modulo_table = sa.table('rol_modulo',
+    sa.Column('rol_usuario_id', sa.Integer),
+    sa.Column('modulo_id', sa.Integer)
+    )
+
+    # Seed database info
+    op.bulk_insert(color_table,
+        [
+            {'id': 1, 'codigo': '#000000', 'disponible': True},
+            {'id': 2, 'codigo': '#ffffff', 'disponible': True},
+        ]
+    )
+
+    op.bulk_insert(modulo_table,
+        [
+            {'id': 1,'nombre':'raiz','icono':'','path': None,'padre_id': None},
+            {'id': 2,'nombre':'Administracion','icono':'build','path': None,'padre_id':'1'},
+            {'id': 3,'nombre':'Consolidacion','icono':'book','path':'/paginas/consolidacion','padre_id':'1'},
+            {'id': 4,'nombre':'Anotacion','icono':'create','path':'/paginas/anotacion','padre_id':'1'},
+            {'id': 5,'nombre':'Usuarios','icono':'account_circle','path':'/paginas/administracion/usuarios','padre_id':'2'},
+            {'id': 6,'nombre':'Politicas','icono':'menu_book','path':'/paginas/administracion/politicas','padre_id':'2'},
+            {'id': 7,'nombre':'Tratamientos','icono':'highlight','path':'/paginas/administracion/tratamientos','padre_id':'2'},
+            {'id': 9,'nombre':'Atributos','icono':'format_list_bulleted','path':'/paginas/administracion/atributos','padre_id':'2'},
+            {'id': 10,'nombre':'Valores','icono':'format_list_numbered','path':'/paginas/administracion/valores','padre_id':'2'}
+        ]
+    )
+
+    op.bulk_insert(rol_usuario_table,
+        [
+            {'id': 1, 'nombre': 'Administrador', 'descripcion': 'Encargado de administrar y consolidar políticas'},
+            {'id': 2, 'nombre': 'Anotador', 'descripcion': 'Encargado de anotar políticas'}
+        ]
+    )
+
+    op.bulk_insert(rol_modulo_table,
+        [
+            {'rol_usuario_id':1, 'modulo_id':2},
+            {'rol_usuario_id':1, 'modulo_id':3},
+            {'rol_usuario_id':1, 'modulo_id':4},
+            {'rol_usuario_id':2, 'modulo_id':4}
+        ]
+    )
+
     # ### end Alembic commands ###
 
 
