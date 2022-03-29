@@ -4,7 +4,7 @@ from app.main import crear_aplicacion, db
 from app import blueprint
 from flask_cors import CORS
 
-ENTORNO = 'docker'
+ENTORNO = 'dev'
 
 app = crear_aplicacion(ENTORNO)
 
