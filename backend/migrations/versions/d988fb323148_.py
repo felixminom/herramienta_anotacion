@@ -5,6 +5,7 @@ Revises:
 Create Date: 2021-04-02 13:14:06.231234
 
 """
+from datetime import datetime
 from alembic import op
 import sqlalchemy as sa
 
@@ -167,6 +168,16 @@ def upgrade():
     sa.Column('modulo_id', sa.Integer)
     )
 
+    usuario_table = sa.table('usuario',
+    sa.Column('id', sa.Integer),
+    sa.Column('email', sa.String),
+    sa.Column('hora_registro', sa.DateTime),
+    sa.Column('rol_usuario', sa.Integer),
+    sa.Column('clave_hash', sa.String),
+    sa.Column('activo', sa.Boolean),
+    sa.Column('entrenamiento', sa.Boolean)
+    )
+
     # Seed database info
     op.bulk_insert(color_table,
         [
@@ -202,6 +213,20 @@ def upgrade():
             {'rol_usuario_id':1, 'modulo_id':3},
             {'rol_usuario_id':1, 'modulo_id':4},
             {'rol_usuario_id':2, 'modulo_id':4}
+        ]
+    )
+
+    op.bulk_insert(usuario_table,
+        [
+            {
+                'id': 1,
+                'email':'admin@gmail.com',
+                'hora_registro': datetime.now(),
+                'rol_usuario': 1,
+                'clave_hash': '$2b$12$gJM9bfraOtvHSPT3FVby/OQyC2FlVWaG/goYIDujTDLEELJoVkwfu',
+                'activo': True,
+                'entrenamiento': False
+            }
         ]
     )
 
