@@ -3,10 +3,14 @@ from flask_script import Manager
 from app.main import crear_aplicacion, db
 from app import blueprint
 from flask_cors import CORS
+from os import getenv
+from dotenv import load_dotenv
 
-ENTORNO = 'dev'
+load_dotenv()
 
-app = crear_aplicacion(ENTORNO)
+ENV = getenv('APP_ENV', 'dev')
+
+app = crear_aplicacion(ENV)
 
 app.register_blueprint(blueprint)
 
