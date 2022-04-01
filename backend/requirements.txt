@@ -44,6 +44,7 @@ PyJWT==1.7.1
 PyMySQL==0.10.0
 pyrsistent==0.16.0
 python-dateutil==2.8.1
+python-dotenv==0.20.0
 python-editor==1.0.4
 pytz==2020.1
 requests==2.24.0
