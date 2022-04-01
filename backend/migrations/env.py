@@ -22,16 +22,9 @@ logger = logging.getLogger('alembic.env')
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
 from flask import current_app
-import os
-from dotenv import load_dotenv
-
-# This is a workaround so don't touch this unless you know what you're doing
-# more info here: https://stackoverflow.com/questions/50355487/environment-variable-coming-up-as-none-using-dotenv-python
-BASEDIR = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', '.env'))
-load_dotenv(BASEDIR)
-db = os.getenv('DB_CONN')
-config.set_main_option('sqlalchemy.url', db.replace('%', '%%'))
-target_metadata = current_app.extensions['migrate'].db.metadata
+config.set_main_option(
+    'sqlalchemy.url', current_app.config.get(
+        'SQLALCHEMY_DATABASE_URI').replace('%', '%%'))
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
