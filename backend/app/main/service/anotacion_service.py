@@ -1,4 +1,5 @@
 from app.main import db
+from app.main.utils import eliminar_entidades, guardar_cambios
 from app.main.model.anotacion import Anotacion, AnotacionValorRelacion
 from app.main.model.valor import Valor
 from app.main.model.atributo import Atributo
@@ -69,23 +70,23 @@ def editar_anotacion(data):
 
 
 def eliminar_anotacion(id):
-    try:
-        AnotacionValorRelacion.query.filter_by(anotacion_id=id).delete()
-        Anotacion.query.filter_by(id=id).delete()
-    except:
-        db.session.rollback()
-        respuesta = {
-            'estado': 'fallido',
-            'mensaje': 'Error eliminando anotacion'
-        }
-        return respuesta, 409
-    else:
-        db.session.commit()
+    anotacion_valores = AnotacionValorRelacion.query.filter_by(anotacion_id=id).all()
+    anotacion = Anotacion.query.filter_by(id=id).first()
+
+    if anotacion_valores and anotacion:
+        eliminar_entidades(anotacion_valores)
+        eliminar_entidades(anotacion)
         respuesta = {
             'estado': 'exito',
             'mensaje': 'Anotacion eliminada exitosamente.'
         }
         return respuesta, 201
+
+    respuesta = {
+        'estado': 'fallido',
+        'mensaje': 'Error eliminando anotacion'
+    }
+    return respuesta, 409
 
 
 def valor_notificacion(valor_id):
@@ -483,8 +484,3 @@ def lista_anidada_unica(lista_listas):
             if x not in lista_unica:
                 lista_unica.append(x)
     return lista_unica
-
-
-def guardar_cambios(data):
-    db.session.add(data)
-    db.session.commit()

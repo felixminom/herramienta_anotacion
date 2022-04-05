@@ -1,4 +1,5 @@
 from app.main import db
+from app.main.utils import commit_db, guardar_cambios
 from app.main.model.politica import Politica, PoliticaUsuarioRelacion
 from app.main.model.usuario import Usuario
 from flask import request
@@ -298,24 +299,23 @@ def editar_politica(data):
 
 
 def eliminar_politica(id):
-    try:
-        eliminar_parrafos_politica(politica_id=id)
-        Politica.query.filter_by(id=id).delete()
-    except:
-        db.session.rollback()
-        respuesta = {
-            'estado': 'fallido',
-            'mensaje': 'Error eliminando política'
-        }
-        return respuesta, 409
-    else:
-        db.session.commit()
+    eliminado = eliminar_parrafos_politica(politica_id=id)
+    politica = Politica.query.filter_by(id=id).first()
+
+    if eliminado and politica:
+        db.session.delete(politica)
+        commit_db
         respuesta = {
             'estado': 'exito',
             'mensaje': 'Política eliminada con exito'
         }
         return respuesta, 201
 
+    respuesta = {
+    'estado': 'fallido',
+    'mensaje': 'Error eliminando política'
+    }
+    return respuesta, 409
 
 def actualizar_politica_asignada(data):
     """ Actualiza el campo 'asignada' de una política """
@@ -497,8 +497,3 @@ def politica_lista_para_consolidar(politica_id):
             return True
         else:
             return False
-
-
-def guardar_cambios(data):
-    db.session.add(data)
-    db.session.commit()

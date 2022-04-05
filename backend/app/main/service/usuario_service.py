@@ -1,5 +1,6 @@
 from flask_restplus import marshal
 from app.main import db
+from app.main.utils import eliminar_entidades, guardar_cambios
 from app.main.model.usuario import Usuario
 from app.main.model.rol_usuario import RolUsuario
 from app.main.util.clases_auxiliares import UsuarioConsultar
@@ -61,16 +62,15 @@ def editar_usuario(usuario):
 
 
 def eliminar_usuario(id):
-    try:
-        Usuario.query.filter_by(id=id).delete()
-    except:
-        db.session.rollback()
-        mensaje = respuesta(False, 'Error eliminando usuario')
-        return mensaje, 409
-    else:
-        db.session.commit()
+    usuario = Usuario.query.filter_by(id=id).first()
+
+    if usuario:
+        eliminar_entidades(usuario)
         mensaje = respuesta(True, 'Usuario eliminado con exito')
         return mensaje, 201
+
+    mensaje = respuesta(False, 'Error eliminando usuario')
+    return mensaje, 409
 
 
 def obtener_usuarios():
@@ -106,8 +106,3 @@ def obtener_administradores_activos():
         return [], 201
     else:
         return marshal(administradores_consultar, UsuarioDto.usuarioConsultarAsignacion), 201
-
-
-def guardar_cambios(data):
-    db.session.add(data)
-    db.session.commit()

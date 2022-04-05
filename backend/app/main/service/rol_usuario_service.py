@@ -1,4 +1,5 @@
 from app.main import db
+from app.main.utils import eliminar_entidades, guardar_cambios
 from app.main.model.rol_usuario import RolUsuario
 from app.main.model.modulo import Modulo
 from ..util.dto import RolUsuarioDto
@@ -46,22 +47,21 @@ def editar_rol(rol):
 
 
 def eliminar_rol(id):
-    try:
-        RolUsuario.query.filter_by(id=id).delete()
-    except:
-        db.session.rollback()
-        respuesta = {
-            'estado': 'fallido',
-            'mensaje': 'No existe el rol de usuario'
-        }
-        return respuesta, 409
-    else:
-        db.session.commit()
+    rol_usuario = RolUsuario.query.filter_by(id=id).first()
+
+    if rol_usuario:
+        eliminar_entidades(rol_usuario)
         respuesta = {
             'estado': 'exito',
             'mensaje': 'Rol de usuario eliminado exitosamente'
         }
         return respuesta, 201
+
+    respuesta = {
+        'estado': 'fallido',
+        'mensaje': 'No existe el rol de usuario'
+    }
+    return respuesta, 409
 
 
 def obtener_roles():
@@ -104,8 +104,3 @@ def guardar_rol_modulo(modulo):
             'mensaje': 'Rol de usuario no encontrado'
         }
         return respuesta, 409
-
-
-def guardar_cambios(data):
-    db.session.add(data)
-    db.session.commit()

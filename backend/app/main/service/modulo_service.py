@@ -1,4 +1,5 @@
 from app.main import db
+from app.main.utils import commit_db, eliminar_entidades, guardar_cambios
 from app.main.model.modulo import Modulo
 
 
@@ -47,22 +48,21 @@ def editar_modulo(modulo):
 
 
 def eliminar_modulo(id):
-    try:
-        Modulo.query.filter_by(id=id).delete()
-    except:
-        db.session.rollback()
-        respuesta = {
-            'estado': 'fallido',
-            'mensaje': 'No existe el módulo'
-        }
-        return respuesta, 409
-    else:
-        db.session.commit()
+    modulo = Modulo.query.filter_by(id=id).first()
+
+    if modulo:
+        eliminar_entidades(modulo)
         respuesta = {
             'estado': 'exito',
             'mensaje': 'Módulo eliminado exitosamente'
         }
         return respuesta, 201
+
+    respuesta = {
+        'estado': 'fallido',
+        'mensaje': 'No existe el módulo'
+    }
+    return respuesta, 409
 
 
 def obtener_modulos():
@@ -71,8 +71,3 @@ def obtener_modulos():
 
 def obtener_modulo(id):
     return Modulo.query.filter_by(id=id).first()
-
-
-def guardar_cambios(data):
-    db.session.add(data)
-    db.session.commit()

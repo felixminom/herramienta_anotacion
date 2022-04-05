@@ -1,5 +1,6 @@
 from flask_restplus import marshal
 from app.main import db
+from app.main.utils import commit_db, eliminar_entidades, guardar_cambios
 from app.main.model.tratamiento import Tratamiento
 from app.main.model.color import Color
 from ..service.atributo_service import obtener_atributos_tratamiento_completo
@@ -42,6 +43,7 @@ def guardar_tratamiento(data):
 
 def editar_tratamiento(data):
     tratamiento = Tratamiento.query.filter_by(id=data['id']).first()
+
     if tratamiento:
         color_antiguo = Color.query.filter_by(id=tratamiento.color_primario).first()
         color_antiguo.disponible = True
@@ -49,7 +51,8 @@ def editar_tratamiento(data):
         color_nuevo.disponible = False
         tratamiento.descripcion = data['descripcion']
         tratamiento.color_primario = data['color_primario']
-        db.session.commit()
+
+        commit_db()
         respuesta = {
             'estado': 'exito',
             'mensaje': 'Se edito exitosamente el tratamiento'
@@ -65,23 +68,21 @@ def editar_tratamiento(data):
 
 def eliminar_tratamiento(id):
     tratamiento = Tratamiento.query.filter_by(id=id).first()
-    try:
+
+    if tratamiento:
         tratamiento.color_tratamiento.disponible = True
-        Tratamiento.query.filter_by(id=id).delete()
-    except:
-        db.session.rollback()
-        respuesta = {
-            'estado': 'fallido',
-            'mensaje': 'No se pudo eliminar el tratamiento'
-        }
-        return respuesta, 409
-    else:
-        db.session.commit()
+        eliminar_entidades(tratamiento)
         respuesta = {
             'estado': 'exito',
             'mensaje': 'Se elimino exitosamente el tratamiento'
         }
         return respuesta, 200
+
+    respuesta = {
+        'estado': 'fallido',
+        'mensaje': 'No se pudo eliminar el tratamiento'
+    }
+    return respuesta, 409
 
 
 def obtener_tratamientos():
@@ -126,8 +127,3 @@ def obtener_tratamientos_completos():
                 tratamientos.insert(i, tratamiento_aux)
                 i += 1
     return tratamientos
-
-
-def guardar_cambios(data):
-    db.session.add(data)
-    db.session.commit()
