@@ -1,6 +1,6 @@
 from app.main import db
 from app.main.model.lista_negra import TokenListaNegra
-from backend.app.main.utils import guardar_cambios
+from app.main.utils import guardar_cambios
 
 
 def guardar_token(token, usuario_id):
