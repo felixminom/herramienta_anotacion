@@ -1,4 +1,5 @@
 from app.main import db
+from app.main.utils import eliminar_entidades, guardar_cambios
 from app.main.model.valor import Valor
 from app.main.model.atributo import Atributo
 from app.main.model.tratamiento import Tratamiento
@@ -52,22 +53,21 @@ def editar_valor(data):
 
 
 def eliminar_valor(id):
-    try:
-        Valor.query.filter_by(id=id).delete()
-    except:
-        db.session.rollback()
-        respuesta = {
-            'estado': 'fallido',
-            'mensaje': 'No existe el valor'
-        }
-        return respuesta, 409
-    else:
-        db.session.commit()
+    valor = Valor.query.filter_by(id=id).first()
+
+    if valor:
+        eliminar_entidades(valor)
         respuesta = {
             'estado': 'exito',
             'mensaje': 'Atributo eliminado exitosamente'
         }
         return respuesta, 201
+
+    respuesta = {
+        'estado': 'fallido',
+        'mensaje': 'No existe el valor'
+    }
+    return respuesta, 409
 
 
 def obtener_valores_atributo(atributo_id):
@@ -108,8 +108,3 @@ def obtener_valores_atributo_completo(atributo_id):
         valores[i].color_primario = item[2].color_tratamiento.codigo
         i += 1
     return valores
-
-
-def guardar_cambios(data):
-    db.session.add(data)
-    db.session.commit()

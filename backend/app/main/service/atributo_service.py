@@ -1,4 +1,5 @@
 from app.main import db
+from app.main.utils import guardar_cambios, eliminar_entidades
 from app.main.model.atributo import Atributo
 from app.main.model.tratamiento import Tratamiento
 from app.main.util.clases_auxiliares import AtributoConsultar
@@ -51,22 +52,21 @@ def editar_atributo(data):
 
 
 def eliminar_atributo(id):
-    try:
-        Atributo.query.filter_by(id=id).delete()
-    except:
-        db.session.rollback()
-        respuesta = {
-            'estado': 'fallido',
-            'mensaje': 'No existe el atributo'
-        }
-        return respuesta, 409
-    else:
-        db.session.commit()
+    atributo = Atributo.query.filter_by(id=id).first()
+
+    if atributo:
+        eliminar_entidades(atributo)
         respuesta = {
             'estado': 'exito',
             'mensaje': 'Atributo eliminado exitosamente'
         }
         return respuesta, 201
+
+    respuesta = {
+        'estado': 'fallido',
+        'mensaje': 'No existe el atributo'
+    }
+    return respuesta, 409
 
 
 def obtener_todos_atributos():
@@ -117,8 +117,3 @@ def obtener_atributos_tratamiento_completo(tratamiento_id):
         atributos[i].color_primario = item[1].color_tratamiento.codigo
         i += 1
     return atributos
-
-
-def guardar_cambios(data):
-    db.session.add(data)
-    db.session.commit()
