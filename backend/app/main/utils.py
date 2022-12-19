@@ -8,8 +8,6 @@ def commit_db():
         # if any kind of exception occurs, rollback transaction
         db.session.rollback()
         raise
-    finally:
-        db.session.close()
 
 
 def eliminar_entidades(objs):
